@@ -1,0 +1,660 @@
+
+Setting environment for using XAMPP for Windows.
+Simran Grover@LAPTOP-JS358S5T c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use batch9am;
+Database changed
+MariaDB [batch9am]> desc students;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| id     | int(5)       | NO   | PRI | NULL    | auto_increment |
+| name   | varchar(100) | NO   |     | NULL    |                |
+| course | varchar(100) | YES  |     | NULL    |                |
+| age    | int(2)       | YES  |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+4 rows in set (0.20 sec)
+
+MariaDB [batch9am]> insert into students(name,course,age) values("himanshu","python",22);
+Query OK, 1 row affected (0.10 sec)
+
+MariaDB [batch9am]> select * from students;
++-----+----------+--------+------+
+| id  | name     | course | age  |
++-----+----------+--------+------+
+| 101 | gaurav   | python |   21 |
+| 102 | nitin    | ml     |   25 |
+| 103 | nikita   | ds     |   20 |
+| 104 | nikita   | ds     |   20 |
+| 105 | akhsay   | aws    |   22 |
+| 106 | isha     | ds     |   25 |
+| 107 | aman     | python |   23 |
+| 108 | damini   | linux  |   22 |
+| 109 | himanshu | python |   22 |
++-----+----------+--------+------+
+9 rows in set (0.00 sec)
+
+MariaDB [batch9am]> create table discount(did int(5) primary key,sid int(5),discount double,foreign key(sid) references students(id));
+Query OK, 0 rows affected (0.69 sec)
+
+MariaDB [batch9am]> desc discount;
++----------+--------+------+-----+---------+-------+
+| Field    | Type   | Null | Key | Default | Extra |
++----------+--------+------+-----+---------+-------+
+| did      | int(5) | NO   | PRI | NULL    |       |
+| sid      | int(5) | YES  | MUL | NULL    |       |
+| discount | double | YES  |     | NULL    |       |
++----------+--------+------+-----+---------+-------+
+3 rows in set (0.08 sec)
+
+MariaDB [batch9am]> grant CREATE,SELECT privileges on batch9am.fees to "abc"@"localhost";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'privileges on batch9am.fees to "abc"@"localhost"' at line 1
+MariaDB [batch9am]> select * from students;
++-----+----------+--------+------+
+| id  | name     | course | age  |
++-----+----------+--------+------+
+| 101 | gaurav   | python |   21 |
+| 102 | nitin    | ml     |   25 |
+| 103 | nikita   | ds     |   20 |
+| 104 | nikita   | ds     |   20 |
+| 105 | akhsay   | aws    |   22 |
+| 106 | isha     | ds     |   25 |
+| 107 | aman     | python |   23 |
+| 108 | damini   | linux  |   22 |
+| 109 | himanshu | python |   22 |
++-----+----------+--------+------+
+9 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   1 | 10000 |     1000 |  102 |
+|   2 | 12000 |     2000 |  103 |
+|   3 |  9000 |     1000 |  104 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+5 rows in set (0.94 sec)
+
+MariaDB [batch9am]> select min(fees) from fees;
++-----------+
+| min(fees) |
++-----------+
+|      9000 |
++-----------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select max(fees) from fees;
++-----------+
+| max(fees) |
++-----------+
+|     18000 |
++-----------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select avg(fees) from fees;
++-----------+
+| avg(fees) |
++-----------+
+|     12400 |
++-----------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select avg(discount),max(fees) from fees;
++---------------+-----------+
+| avg(discount) | max(fees) |
++---------------+-----------+
+|          1700 |     18000 |
++---------------+-----------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select sum(fees) from fees;
++-----------+
+| sum(fees) |
++-----------+
+|     62000 |
++-----------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select sum(discount) from fees;
++---------------+
+| sum(discount) |
++---------------+
+|          8500 |
++---------------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select count(fees) from fees;
++-------------+
+| count(fees) |
++-------------+
+|           5 |
++-------------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select count(*) from fees;
++----------+
+| count(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   1 | 10000 |     1000 |  102 |
+|   2 | 12000 |     2000 |  103 |
+|   3 |  9000 |     1000 |  104 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees order by fees;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   3 |  9000 |     1000 |  104 |
+|   1 | 10000 |     1000 |  102 |
+|   2 | 12000 |     2000 |  103 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees order by fees asc;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   3 |  9000 |     1000 |  104 |
+|   1 | 10000 |     1000 |  102 |
+|   2 | 12000 |     2000 |  103 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees order by fees desc;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   5 | 18000 |     3000 |  107 |
+|   4 | 13000 |     1500 |  105 |
+|   2 | 12000 |     2000 |  103 |
+|   1 | 10000 |     1000 |  102 |
+|   3 |  9000 |     1000 |  104 |
++-----+-------+----------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees order by fees,discount;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   3 |  9000 |     1000 |  104 |
+|   1 | 10000 |     1000 |  102 |
+|   2 | 12000 |     2000 |  103 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> insert into fees values(6,12000,1500,104);
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [batch9am]> select * from fees;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   1 | 10000 |     1000 |  102 |
+|   2 | 12000 |     2000 |  103 |
+|   3 |  9000 |     1000 |  104 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
+|   6 | 12000 |     1500 |  104 |
++-----+-------+----------+------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees order by fees,discount;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   3 |  9000 |     1000 |  104 |
+|   1 | 10000 |     1000 |  102 |
+|   6 | 12000 |     1500 |  104 |
+|   2 | 12000 |     2000 |  103 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students groupby course;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'course' at line 1
+MariaDB [batch9am]> select * from students group by course;
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 105 | akhsay | aws    |   22 |
+| 103 | nikita | ds     |   20 |
+| 108 | damini | linux  |   22 |
+| 102 | nitin  | ml     |   25 |
+| 101 | gaurav | python |   21 |
++-----+--------+--------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select count(*) from students group by course;
++----------+
+| count(*) |
++----------+
+|        1 |
+|        3 |
+|        1 |
+|        1 |
+|        3 |
++----------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select count(*),course from students group by course;
++----------+--------+
+| count(*) | course |
++----------+--------+
+|        1 | aws    |
+|        3 | ds     |
+|        1 | linux  |
+|        1 | ml     |
+|        3 | python |
++----------+--------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees group by fees;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   3 |  9000 |     1000 |  104 |
+|   1 | 10000 |     1000 |  102 |
+|   2 | 12000 |     2000 |  103 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from address group by city;
++-----+------+---------------+---------+-------+
+| aid | sid  | street        | city    | state |
++-----+------+---------------+---------+-------+
+|   3 |  104 | vaishali      | delhi   | delhi |
+|   5 |  105 | tilak nagar   | gwalior | mp    |
+|   1 |  101 | malviya nagar | jaipur  | raj   |
++-----+------+---------------+---------+-------+
+3 rows in set (0.02 sec)
+
+MariaDB [batch9am]> select count(*),city from address group by city;
++----------+---------+
+| count(*) | city    |
++----------+---------+
+|        1 | delhi   |
+|        1 | gwalior |
+|        4 | jaipur  |
++----------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select count(*),city from address group by city having count(*)>2;
++----------+--------+
+| count(*) | city   |
++----------+--------+
+|        4 | jaipur |
++----------+--------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select count(*),discount from fees group by discount having count(*)<2;
++----------+----------+
+| count(*) | discount |
++----------+----------+
+|        1 |     2000 |
+|        1 |     3000 |
++----------+----------+
+2 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select count(*),discount from fees group by discount having count(*)>2;
+Empty set (0.00 sec)
+
+MariaDB [batch9am]> select count(*),discount from fees group by discount having count(*)>=2;
++----------+----------+
+| count(*) | discount |
++----------+----------+
+|        2 |     1000 |
+|        2 |     1500 |
++----------+----------+
+2 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select count(*),course from students group by course;
++----------+--------+
+| count(*) | course |
++----------+--------+
+|        1 | aws    |
+|        3 | ds     |
+|        1 | linux  |
+|        1 | ml     |
+|        3 | python |
++----------+--------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees inner join students on fees.sid = students.id;
++-----+-------+----------+------+-----+--------+--------+------+
+| fid | fees  | discount | sid  | id  | name   | course | age  |
++-----+-------+----------+------+-----+--------+--------+------+
+|   1 | 10000 |     1000 |  102 | 102 | nitin  | ml     |   25 |
+|   2 | 12000 |     2000 |  103 | 103 | nikita | ds     |   20 |
+|   3 |  9000 |     1000 |  104 | 104 | nikita | ds     |   20 |
+|   4 | 13000 |     1500 |  105 | 105 | akhsay | aws    |   22 |
+|   5 | 18000 |     3000 |  107 | 107 | aman   | python |   23 |
+|   6 | 12000 |     1500 |  104 | 104 | nikita | ds     |   20 |
++-----+-------+----------+------+-----+--------+--------+------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select fees,sid,discount,name from fees inner join students on fees.sid = students.id;
++-------+------+----------+--------+
+| fees  | sid  | discount | name   |
++-------+------+----------+--------+
+| 10000 |  102 |     1000 | nitin  |
+| 12000 |  103 |     2000 | nikita |
+|  9000 |  104 |     1000 | nikita |
+| 13000 |  105 |     1500 | akhsay |
+| 18000 |  107 |     3000 | aman   |
+| 12000 |  104 |     1500 | nikita |
++-------+------+----------+--------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select fees,sid,discount,name from fees inner join students on fees.sid = students.id where fees>10000;
++-------+------+----------+--------+
+| fees  | sid  | discount | name   |
++-------+------+----------+--------+
+| 12000 |  103 |     2000 | nikita |
+| 13000 |  105 |     1500 | akhsay |
+| 18000 |  107 |     3000 | aman   |
+| 12000 |  104 |     1500 | nikita |
++-------+------+----------+--------+
+4 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees join students;
++-----+-------+----------+------+-----+----------+--------+------+
+| fid | fees  | discount | sid  | id  | name     | course | age  |
++-----+-------+----------+------+-----+----------+--------+------+
+|   1 | 10000 |     1000 |  102 | 101 | gaurav   | python |   21 |
+|   2 | 12000 |     2000 |  103 | 101 | gaurav   | python |   21 |
+|   3 |  9000 |     1000 |  104 | 101 | gaurav   | python |   21 |
+|   4 | 13000 |     1500 |  105 | 101 | gaurav   | python |   21 |
+|   5 | 18000 |     3000 |  107 | 101 | gaurav   | python |   21 |
+|   6 | 12000 |     1500 |  104 | 101 | gaurav   | python |   21 |
+|   1 | 10000 |     1000 |  102 | 102 | nitin    | ml     |   25 |
+|   2 | 12000 |     2000 |  103 | 102 | nitin    | ml     |   25 |
+|   3 |  9000 |     1000 |  104 | 102 | nitin    | ml     |   25 |
+|   4 | 13000 |     1500 |  105 | 102 | nitin    | ml     |   25 |
+|   5 | 18000 |     3000 |  107 | 102 | nitin    | ml     |   25 |
+|   6 | 12000 |     1500 |  104 | 102 | nitin    | ml     |   25 |
+|   1 | 10000 |     1000 |  102 | 103 | nikita   | ds     |   20 |
+|   2 | 12000 |     2000 |  103 | 103 | nikita   | ds     |   20 |
+|   3 |  9000 |     1000 |  104 | 103 | nikita   | ds     |   20 |
+|   4 | 13000 |     1500 |  105 | 103 | nikita   | ds     |   20 |
+|   5 | 18000 |     3000 |  107 | 103 | nikita   | ds     |   20 |
+|   6 | 12000 |     1500 |  104 | 103 | nikita   | ds     |   20 |
+|   1 | 10000 |     1000 |  102 | 104 | nikita   | ds     |   20 |
+|   2 | 12000 |     2000 |  103 | 104 | nikita   | ds     |   20 |
+|   3 |  9000 |     1000 |  104 | 104 | nikita   | ds     |   20 |
+|   4 | 13000 |     1500 |  105 | 104 | nikita   | ds     |   20 |
+|   5 | 18000 |     3000 |  107 | 104 | nikita   | ds     |   20 |
+|   6 | 12000 |     1500 |  104 | 104 | nikita   | ds     |   20 |
+|   1 | 10000 |     1000 |  102 | 105 | akhsay   | aws    |   22 |
+|   2 | 12000 |     2000 |  103 | 105 | akhsay   | aws    |   22 |
+|   3 |  9000 |     1000 |  104 | 105 | akhsay   | aws    |   22 |
+|   4 | 13000 |     1500 |  105 | 105 | akhsay   | aws    |   22 |
+|   5 | 18000 |     3000 |  107 | 105 | akhsay   | aws    |   22 |
+|   6 | 12000 |     1500 |  104 | 105 | akhsay   | aws    |   22 |
+|   1 | 10000 |     1000 |  102 | 106 | isha     | ds     |   25 |
+|   2 | 12000 |     2000 |  103 | 106 | isha     | ds     |   25 |
+|   3 |  9000 |     1000 |  104 | 106 | isha     | ds     |   25 |
+|   4 | 13000 |     1500 |  105 | 106 | isha     | ds     |   25 |
+|   5 | 18000 |     3000 |  107 | 106 | isha     | ds     |   25 |
+|   6 | 12000 |     1500 |  104 | 106 | isha     | ds     |   25 |
+|   1 | 10000 |     1000 |  102 | 107 | aman     | python |   23 |
+|   2 | 12000 |     2000 |  103 | 107 | aman     | python |   23 |
+|   3 |  9000 |     1000 |  104 | 107 | aman     | python |   23 |
+|   4 | 13000 |     1500 |  105 | 107 | aman     | python |   23 |
+|   5 | 18000 |     3000 |  107 | 107 | aman     | python |   23 |
+|   6 | 12000 |     1500 |  104 | 107 | aman     | python |   23 |
+|   1 | 10000 |     1000 |  102 | 108 | damini   | linux  |   22 |
+|   2 | 12000 |     2000 |  103 | 108 | damini   | linux  |   22 |
+|   3 |  9000 |     1000 |  104 | 108 | damini   | linux  |   22 |
+|   4 | 13000 |     1500 |  105 | 108 | damini   | linux  |   22 |
+|   5 | 18000 |     3000 |  107 | 108 | damini   | linux  |   22 |
+|   6 | 12000 |     1500 |  104 | 108 | damini   | linux  |   22 |
+|   1 | 10000 |     1000 |  102 | 109 | himanshu | python |   22 |
+|   2 | 12000 |     2000 |  103 | 109 | himanshu | python |   22 |
+|   3 |  9000 |     1000 |  104 | 109 | himanshu | python |   22 |
+|   4 | 13000 |     1500 |  105 | 109 | himanshu | python |   22 |
+|   5 | 18000 |     3000 |  107 | 109 | himanshu | python |   22 |
+|   6 | 12000 |     1500 |  104 | 109 | himanshu | python |   22 |
++-----+-------+----------+------+-----+----------+--------+------+
+54 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees join students on studentss.id = fees.sid;
+ERROR 1054 (42S22): Unknown column 'studentss.id' in 'on clause'
+MariaDB [batch9am]> select * from fees join students on students.id = fees.sid;
++-----+-------+----------+------+-----+--------+--------+------+
+| fid | fees  | discount | sid  | id  | name   | course | age  |
++-----+-------+----------+------+-----+--------+--------+------+
+|   1 | 10000 |     1000 |  102 | 102 | nitin  | ml     |   25 |
+|   2 | 12000 |     2000 |  103 | 103 | nikita | ds     |   20 |
+|   3 |  9000 |     1000 |  104 | 104 | nikita | ds     |   20 |
+|   4 | 13000 |     1500 |  105 | 105 | akhsay | aws    |   22 |
+|   5 | 18000 |     3000 |  107 | 107 | aman   | python |   23 |
+|   6 | 12000 |     1500 |  104 | 104 | nikita | ds     |   20 |
++-----+-------+----------+------+-----+--------+--------+------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students outer join fees on students.id = fees.sid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'outer join fees on students.id = fees.sid' at line 1
+MariaDB [batch9am]> select * from students join fees on students.id = fees.sid;
++-----+--------+--------+------+-----+-------+----------+------+
+| id  | name   | course | age  | fid | fees  | discount | sid  |
++-----+--------+--------+------+-----+-------+----------+------+
+| 102 | nitin  | ml     |   25 |   1 | 10000 |     1000 |  102 |
+| 103 | nikita | ds     |   20 |   2 | 12000 |     2000 |  103 |
+| 104 | nikita | ds     |   20 |   3 |  9000 |     1000 |  104 |
+| 105 | akhsay | aws    |   22 |   4 | 13000 |     1500 |  105 |
+| 107 | aman   | python |   23 |   5 | 18000 |     3000 |  107 |
+| 104 | nikita | ds     |   20 |   6 | 12000 |     1500 |  104 |
++-----+--------+--------+------+-----+-------+----------+------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select name,id,sid from students join fees on students.id = fees.sid;
++--------+-----+------+
+| name   | id  | sid  |
++--------+-----+------+
+| nitin  | 102 |  102 |
+| nikita | 103 |  103 |
+| nikita | 104 |  104 |
+| nikita | 104 |  104 |
+| akhsay | 105 |  105 |
+| aman   | 107 |  107 |
++--------+-----+------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select name,id,sid,fees from students join fees on students.id = fees.sid;
++--------+-----+------+-------+
+| name   | id  | sid  | fees  |
++--------+-----+------+-------+
+| nitin  | 102 |  102 | 10000 |
+| nikita | 103 |  103 | 12000 |
+| nikita | 104 |  104 |  9000 |
+| akhsay | 105 |  105 | 13000 |
+| aman   | 107 |  107 | 18000 |
+| nikita | 104 |  104 | 12000 |
++--------+-----+------+-------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select name,id,sid,fees from students join fees;
++----------+-----+------+-------+
+| name     | id  | sid  | fees  |
++----------+-----+------+-------+
+| gaurav   | 101 |  102 | 10000 |
+| gaurav   | 101 |  103 | 12000 |
+| gaurav   | 101 |  104 |  9000 |
+| gaurav   | 101 |  105 | 13000 |
+| gaurav   | 101 |  107 | 18000 |
+| gaurav   | 101 |  104 | 12000 |
+| nitin    | 102 |  102 | 10000 |
+| nitin    | 102 |  103 | 12000 |
+| nitin    | 102 |  104 |  9000 |
+| nitin    | 102 |  105 | 13000 |
+| nitin    | 102 |  107 | 18000 |
+| nitin    | 102 |  104 | 12000 |
+| nikita   | 103 |  102 | 10000 |
+| nikita   | 103 |  103 | 12000 |
+| nikita   | 103 |  104 |  9000 |
+| nikita   | 103 |  105 | 13000 |
+| nikita   | 103 |  107 | 18000 |
+| nikita   | 103 |  104 | 12000 |
+| nikita   | 104 |  102 | 10000 |
+| nikita   | 104 |  103 | 12000 |
+| nikita   | 104 |  104 |  9000 |
+| nikita   | 104 |  105 | 13000 |
+| nikita   | 104 |  107 | 18000 |
+| nikita   | 104 |  104 | 12000 |
+| akhsay   | 105 |  102 | 10000 |
+| akhsay   | 105 |  103 | 12000 |
+| akhsay   | 105 |  104 |  9000 |
+| akhsay   | 105 |  105 | 13000 |
+| akhsay   | 105 |  107 | 18000 |
+| akhsay   | 105 |  104 | 12000 |
+| isha     | 106 |  102 | 10000 |
+| isha     | 106 |  103 | 12000 |
+| isha     | 106 |  104 |  9000 |
+| isha     | 106 |  105 | 13000 |
+| isha     | 106 |  107 | 18000 |
+| isha     | 106 |  104 | 12000 |
+| aman     | 107 |  102 | 10000 |
+| aman     | 107 |  103 | 12000 |
+| aman     | 107 |  104 |  9000 |
+| aman     | 107 |  105 | 13000 |
+| aman     | 107 |  107 | 18000 |
+| aman     | 107 |  104 | 12000 |
+| damini   | 108 |  102 | 10000 |
+| damini   | 108 |  103 | 12000 |
+| damini   | 108 |  104 |  9000 |
+| damini   | 108 |  105 | 13000 |
+| damini   | 108 |  107 | 18000 |
+| damini   | 108 |  104 | 12000 |
+| himanshu | 109 |  102 | 10000 |
+| himanshu | 109 |  103 | 12000 |
+| himanshu | 109 |  104 |  9000 |
+| himanshu | 109 |  105 | 13000 |
+| himanshu | 109 |  107 | 18000 |
+| himanshu | 109 |  104 | 12000 |
++----------+-----+------+-------+
+54 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select name,id,sid,fees from students join fees on fees.id = students.sid;
+ERROR 1054 (42S22): Unknown column 'fees.id' in 'on clause'
+MariaDB [batch9am]> select name,id,sid,fees from students join fees on fees.sid = students.id;
++--------+-----+------+-------+
+| name   | id  | sid  | fees  |
++--------+-----+------+-------+
+| nitin  | 102 |  102 | 10000 |
+| nikita | 103 |  103 | 12000 |
+| nikita | 104 |  104 |  9000 |
+| akhsay | 105 |  105 | 13000 |
+| aman   | 107 |  107 | 18000 |
+| nikita | 104 |  104 | 12000 |
++--------+-----+------+-------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students left join fees on fees.sid = students.id;
++-----+----------+--------+------+------+-------+----------+------+
+| id  | name     | course | age  | fid  | fees  | discount | sid  |
++-----+----------+--------+------+------+-------+----------+------+
+| 102 | nitin    | ml     |   25 |    1 | 10000 |     1000 |  102 |
+| 103 | nikita   | ds     |   20 |    2 | 12000 |     2000 |  103 |
+| 104 | nikita   | ds     |   20 |    3 |  9000 |     1000 |  104 |
+| 105 | akhsay   | aws    |   22 |    4 | 13000 |     1500 |  105 |
+| 107 | aman     | python |   23 |    5 | 18000 |     3000 |  107 |
+| 104 | nikita   | ds     |   20 |    6 | 12000 |     1500 |  104 |
+| 101 | gaurav   | python |   21 | NULL |  NULL |     NULL | NULL |
+| 106 | isha     | ds     |   25 | NULL |  NULL |     NULL | NULL |
+| 108 | damini   | linux  |   22 | NULL |  NULL |     NULL | NULL |
+| 109 | himanshu | python |   22 | NULL |  NULL |     NULL | NULL |
++-----+----------+--------+------+------+-------+----------+------+
+10 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students right join fees on fees.sid = students.id;
++------+--------+--------+------+-----+-------+----------+------+
+| id   | name   | course | age  | fid | fees  | discount | sid  |
++------+--------+--------+------+-----+-------+----------+------+
+|  102 | nitin  | ml     |   25 |   1 | 10000 |     1000 |  102 |
+|  103 | nikita | ds     |   20 |   2 | 12000 |     2000 |  103 |
+|  104 | nikita | ds     |   20 |   3 |  9000 |     1000 |  104 |
+|  105 | akhsay | aws    |   22 |   4 | 13000 |     1500 |  105 |
+|  107 | aman   | python |   23 |   5 | 18000 |     3000 |  107 |
+|  104 | nikita | ds     |   20 |   6 | 12000 |     1500 |  104 |
++------+--------+--------+------+-----+-------+----------+------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students right join fees on fees.sid = students.id wherecourse="ds";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'wherecourse="ds"' at line 1
+MariaDB [batch9am]> select * from students right join fees on fees.sid = students.id where course="ds";
++-----+--------+--------+------+-----+-------+----------+------+
+| id  | name   | course | age  | fid | fees  | discount | sid  |
++-----+--------+--------+------+-----+-------+----------+------+
+| 103 | nikita | ds     |   20 |   2 | 12000 |     2000 |  103 |
+| 104 | nikita | ds     |   20 |   3 |  9000 |     1000 |  104 |
+| 104 | nikita | ds     |   20 |   6 | 12000 |     1500 |  104 |
++-----+--------+--------+------+-----+-------+----------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students;
++-----+----------+--------+------+
+| id  | name     | course | age  |
++-----+----------+--------+------+
+| 101 | gaurav   | python |   21 |
+| 102 | nitin    | ml     |   25 |
+| 103 | nikita   | ds     |   20 |
+| 104 | nikita   | ds     |   20 |
+| 105 | akhsay   | aws    |   22 |
+| 106 | isha     | ds     |   25 |
+| 107 | aman     | python |   23 |
+| 108 | damini   | linux  |   22 |
+| 109 | himanshu | python |   22 |
++-----+----------+--------+------+
+9 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students;
++-----+----------+--------+------+
+| id  | name     | course | age  |
++-----+----------+--------+------+
+| 101 | gaurav   | python |   21 |
+| 102 | nitin    | ml     |   25 |
+| 103 | nikita   | ds     |   20 |
+| 104 | nikita   | ds     |   20 |
+| 105 | akhsay   | aws    |   22 |
+| 106 | isha     | ds     |   25 |
+| 107 | aman     | python |   23 |
+| 108 | damini   | linux  |   22 |
+| 109 | himanshu | python |   22 |
+| 110 | simran   | python |   19 |
+| 111 | megha    | ds     |   21 |
+| 112 | nehal    | cloud  |   20 |
++-----+----------+--------+------+
+12 rows in set (0.00 sec)
+
+MariaDB [batch9am]>

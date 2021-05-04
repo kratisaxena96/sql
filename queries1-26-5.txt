@@ -1,0 +1,963 @@
+
+Setting environment for using XAMPP for Windows.
+Simran Grover@LAPTOP-JS358S5T c:\xampp
+# mysql -u root -pp
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+
+Simran Grover@LAPTOP-JS358S5T c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use batch9am;
+Database changed
+MariaDB [batch9am]> show tables;
++--------------------+
+| Tables_in_batch9am |
++--------------------+
+| students           |
++--------------------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students;
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
+| 107 | aman   | pythn  |   23 |
++-----+--------+--------+------+
+7 rows in set (0.07 sec)
+
+MariaDB [batch9am]> select * from students where not course = "ds";
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 105 | akhsay | aws    |   22 |
+| 107 | aman   | pythn  |   23 |
++-----+--------+--------+------+
+4 rows in set (0.02 sec)
+
+MariaDB [batch9am]> update student set column course = "python" where id=107;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'column course = "python" where id=107' at line 1
+MariaDB [batch9am]> update student set course = "python" where id=107;
+ERROR 1146 (42S02): Table 'batch9am.student' doesn't exist
+MariaDB [batch9am]> update students set course = "python" where id=107;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [batch9am]> select * from students;
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
+| 107 | aman   | python |   23 |
++-----+--------+--------+------+
+7 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where not course = "ds";
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 105 | akhsay | aws    |   22 |
+| 107 | aman   | python |   23 |
++-----+--------+--------+------+
+4 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where course in ("aws","ds");
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
++-----+--------+--------+------+
+4 rows in set (0.01 sec)
+
+MariaDB [batch9am]> select * from students where course in ("aws","ds","cloud");
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
++-----+--------+--------+------+
+4 rows in set (0.00 sec)
+
+MariaDB [batch9am]> create table fees(fid int(5) primary key,fees double,discount double,sid int(5),foreign key(sid) reference students(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'reference students(id))' at line 1
+MariaDB [batch9am]> create table fees(fid int(5) primary key,fees double,discount double,sid int(5),foreign key(sid) reference students(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'reference students(id))' at line 1
+MariaDB [batch9am]> create table fees(fid int(5) primary key,fees double,discount double,sid int(5),foreign key(sid) refer students(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'refer students(id))' at line 1
+MariaDB [batch9am]> create table fees(fid int(5) primary key,fees double,discount double,sid int(5),foreign key(sid) references students(id));
+Query OK, 0 rows affected (0.21 sec)
+
+MariaDB [batch9am]> desc fees;
++----------+--------+------+-----+---------+-------+
+| Field    | Type   | Null | Key | Default | Extra |
++----------+--------+------+-----+---------+-------+
+| fid      | int(5) | NO   | PRI | NULL    |       |
+| fees     | double | YES  |     | NULL    |       |
+| discount | double | YES  |     | NULL    |       |
+| sid      | int(5) | YES  | MUL | NULL    |       |
++----------+--------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+MariaDB [batch9am]> select * from students;
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
+| 107 | aman   | python |   23 |
++-----+--------+--------+------+
+7 rows in set (0.00 sec)
+
+MariaDB [batch9am]> insert into fees values(1,10000,1000,108);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`batch9am`.`fees`, CONSTRAINT `fees_ibfk_1` FOREIGN KEY (`sid`) REFERENCES `students` (`id`))
+MariaDB [batch9am]> insert into fees values(1,10000,1000,102);
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [batch9am]> select * from fees;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   1 | 10000 |     1000 |  102 |
++-----+-------+----------+------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> insert into fees values(2,12000,2000,103), (3,9000,1000,104),(4,13000,1500,105),(5,18000,3000,107);
+Query OK, 4 rows affected (0.05 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [batch9am]> select * from fees;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   1 | 10000 |     1000 |  102 |
+|   2 | 12000 |     2000 |  103 |
+|   3 |  9000 |     1000 |  104 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees where fees > 10000;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   2 | 12000 |     2000 |  103 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select fid,dicount from fees where fees > 10000;
+ERROR 1054 (42S22): Unknown column 'dicount' in 'field list'
+MariaDB [batch9am]> select fid,discount from fees where fees > 10000;
++-----+----------+
+| fid | discount |
++-----+----------+
+|   2 |     2000 |
+|   4 |     1500 |
+|   5 |     3000 |
++-----+----------+
+3 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select fid,discount from fees where fees >=10000;
++-----+----------+
+| fid | discount |
++-----+----------+
+|   1 |     1000 |
+|   2 |     2000 |
+|   4 |     1500 |
+|   5 |     3000 |
++-----+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select fees,discount from fees where fees >=10000;
++-------+----------+
+| fees  | discount |
++-------+----------+
+| 10000 |     1000 |
+| 12000 |     2000 |
+| 13000 |     1500 |
+| 18000 |     3000 |
++-------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees where fees>10000 and discount>1500;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   2 | 12000 |     2000 |  103 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students;
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
+| 107 | aman   | python |   23 |
++-----+--------+--------+------+
+7 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   1 | 10000 |     1000 |  102 |
+|   2 | 12000 |     2000 |  103 |
+|   3 |  9000 |     1000 |  104 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select name from student where id in (103,105,107);
+ERROR 1146 (42S02): Table 'batch9am.student' doesn't exist
+MariaDB [batch9am]> select name from students where id in (103,105,107);
++--------+
+| name   |
++--------+
+| nikita |
+| akhsay |
+| aman   |
++--------+
+3 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select name,fees from students where id in (103,105,107);
+ERROR 1054 (42S22): Unknown column 'fees' in 'field list'
+MariaDB [batch9am]> select name from students where id in (103,105,107);
++--------+
+| name   |
++--------+
+| nikita |
+| akhsay |
+| aman   |
++--------+
+3 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select name from students where id in (select sid from fees where fees>10000);
++--------+
+| name   |
++--------+
+| nikita |
+| akhsay |
+| aman   |
++--------+
+3 rows in set (0.01 sec)
+
+MariaDB [batch9am]> select name from students where id = (select sid from fees where fees>10000);
+ERROR 1242 (21000): Subquery returns more than 1 row
+MariaDB [batch9am]> select name from students where id = 107;
++------+
+| name |
++------+
+| aman |
++------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select name,fees from students,fees where fees>10000 and sid=id;
++--------+-------+
+| name   | fees  |
++--------+-------+
+| nikita | 12000 |
+| akhsay | 13000 |
+| aman   | 18000 |
++--------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [batch9am]> create table address(aid int(5) primary key,sid int(5),street varchar(100),city varchar(100),state varchar(100),foreign key(sid) references student(id));
+ERROR 1005 (HY000): Can't create table `batch9am`.`address` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [batch9am]> create table address(aid int(5) primary key,sid int(5),street varchar(100),city varchar(100),state varchar(100),foreign key(sid) references students(id));
+Query OK, 0 rows affected (0.09 sec)
+
+MariaDB [batch9am]> desc address;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| aid    | int(5)       | NO   | PRI | NULL    |       |
+| sid    | int(5)       | YES  | MUL | NULL    |       |
+| street | varchar(100) | YES  |     | NULL    |       |
+| city   | varchar(100) | YES  |     | NULL    |       |
+| state  | varchar(100) | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+MariaDB [batch9am]> insert into address values(1,101,"malviya nagar","jaipur","raj"),(2,103,"raja park","jaipur","raj"),(3,104,"vaishali","delhi","delhi");
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [batch9am]> select * from address;
++-----+------+---------------+--------+-------+
+| aid | sid  | street        | city   | state |
++-----+------+---------------+--------+-------+
+|   1 |  101 | malviya nagar | jaipur | raj   |
+|   2 |  103 | raja park     | jaipur | raj   |
+|   3 |  104 | vaishali      | delhi  | delhi |
++-----+------+---------------+--------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select name from student where id in (select sid from address where city="jaipur");
+ERROR 1146 (42S02): Table 'batch9am.student' doesn't exist
+MariaDB [batch9am]> select name from students where id in (select sid from address where city="jaipur");
++--------+
+| name   |
++--------+
+| gaurav |
+| nikita |
++--------+
+2 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students;
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
+| 107 | aman   | python |   23 |
++-----+--------+--------+------+
+7 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   1 | 10000 |     1000 |  102 |
+|   2 | 12000 |     2000 |  103 |
+|   3 |  9000 |     1000 |  104 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from address;
++-----+------+---------------+--------+-------+
+| aid | sid  | street        | city   | state |
++-----+------+---------------+--------+-------+
+|   1 |  101 | malviya nagar | jaipur | raj   |
+|   2 |  103 | raja park     | jaipur | raj   |
+|   3 |  104 | vaishali      | delhi  | delhi |
++-----+------+---------------+--------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [batch9am]> name of student having discount 1000 and lives in jaipur;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'name of student having discount 1000 and lives in jaipur' at line 1
+MariaDB [batch9am]> insert into address values(4,102,"malviya nagar","delhi","delhi"),(5,105,"tilak nagar","gwalior","mp"),(6,106,"jawahar nagar","jaipur","raj");
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [batch9am]> select * from address;
++-----+------+---------------+---------+-------+
+| aid | sid  | street        | city    | state |
++-----+------+---------------+---------+-------+
+|   1 |  101 | malviya nagar | jaipur  | raj   |
+|   2 |  103 | raja park     | jaipur  | raj   |
+|   3 |  104 | vaishali      | delhi   | delhi |
+|   4 |  102 | malviya nagar | delhi   | delhi |
+|   5 |  105 | tilak nagar   | gwalior | mp    |
+|   6 |  106 | jawahar nagar | jaipur  | raj   |
++-----+------+---------------+---------+-------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students;
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
+| 107 | aman   | python |   23 |
++-----+--------+--------+------+
+7 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from fees;
++-----+-------+----------+------+
+| fid | fees  | discount | sid  |
++-----+-------+----------+------+
+|   1 | 10000 |     1000 |  102 |
+|   2 | 12000 |     2000 |  103 |
+|   3 |  9000 |     1000 |  104 |
+|   4 | 13000 |     1500 |  105 |
+|   5 | 18000 |     3000 |  107 |
++-----+-------+----------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select name from students where sid in ((select id from fees where discount=1000) and (select id from address where city ='jaipur'))
+    -> ;
+ERROR 1054 (42S22): Unknown column 'sid' in 'where clause'
+MariaDB [batch9am]> select name from students where id in ((select id from fees where discount=1000) and (select id from address where city ='jaipur'))
+    -> ;
+ERROR 1242 (21000): Subquery returns more than 1 row
+MariaDB [batch9am]> select name from student where(select discount from fees( where discount >1000 && select address from student where address="jaipur")
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '( where discount >1000 && select address from student where address="jaipur")' at line 1
+MariaDB [batch9am]> select name from students where id in(select discount from fees where discount >1000 and select address from student where address="jaipur")
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'select address from student where address="jaipur")' at line 1
+MariaDB [batch9am]> update address city="jaipur" where sid=102;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '="jaipur" where sid=102' at line 1
+MariaDB [batch9am]> update address set city="jaipur" where sid=102;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [batch9am]> select * from address;
++-----+------+---------------+---------+-------+
+| aid | sid  | street        | city    | state |
++-----+------+---------------+---------+-------+
+|   1 |  101 | malviya nagar | jaipur  | raj   |
+|   2 |  103 | raja park     | jaipur  | raj   |
+|   3 |  104 | vaishali      | delhi   | delhi |
+|   4 |  102 | malviya nagar | jaipur  | delhi |
+|   5 |  105 | tilak nagar   | gwalior | mp    |
+|   6 |  106 | jawahar nagar | jaipur  | raj   |
++-----+------+---------------+---------+-------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select name from students where discount in (select sid from fees where discount = 1000) and (select city from address where city = Jaipur);
+ERROR 1054 (42S22): Unknown column 'discount' in 'IN/ALL/ANY subquery'
+MariaDB [batch9am]> select name from students where id in (select sid from fees where discount = 1000) and (select sid from address where city = "Jaipur");
+ERROR 1242 (21000): Subquery returns more than 1 row
+MariaDB [batch9am]> select name from students where id in (select sid from fees where discount = 1000) and id in (select sid from address where city = "Jaipur");
++-------+
+| name  |
++-------+
+| nitin |
++-------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students;
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
+| 107 | aman   | python |   23 |
++-----+--------+--------+------+
+7 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select name where id in (select sid where sid in (select sid where city="Jaipur"))
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where id in (select sid where sid in (select sid where city="Jaipur"))' at line 1
+MariaDB [batch9am]> select name,discount,city from student,fees,address where discount=1000 and city="Jaipur"
+    ->
+    -> ;
+ERROR 1146 (42S02): Table 'batch9am.student' doesn't exist
+MariaDB [batch9am]> select name,discount,city from students,fees,address where discount=1000 and city="Jaipur";
++--------+----------+--------+
+| name   | discount | city   |
++--------+----------+--------+
+| gaurav |     1000 | jaipur |
+| gaurav |     1000 | jaipur |
+| gaurav |     1000 | jaipur |
+| gaurav |     1000 | jaipur |
+| gaurav |     1000 | jaipur |
+| gaurav |     1000 | jaipur |
+| gaurav |     1000 | jaipur |
+| gaurav |     1000 | jaipur |
+| nitin  |     1000 | jaipur |
+| nitin  |     1000 | jaipur |
+| nitin  |     1000 | jaipur |
+| nitin  |     1000 | jaipur |
+| nitin  |     1000 | jaipur |
+| nitin  |     1000 | jaipur |
+| nitin  |     1000 | jaipur |
+| nitin  |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| akhsay |     1000 | jaipur |
+| akhsay |     1000 | jaipur |
+| akhsay |     1000 | jaipur |
+| akhsay |     1000 | jaipur |
+| akhsay |     1000 | jaipur |
+| akhsay |     1000 | jaipur |
+| akhsay |     1000 | jaipur |
+| akhsay |     1000 | jaipur |
+| isha   |     1000 | jaipur |
+| isha   |     1000 | jaipur |
+| isha   |     1000 | jaipur |
+| isha   |     1000 | jaipur |
+| isha   |     1000 | jaipur |
+| isha   |     1000 | jaipur |
+| isha   |     1000 | jaipur |
+| isha   |     1000 | jaipur |
+| aman   |     1000 | jaipur |
+| aman   |     1000 | jaipur |
+| aman   |     1000 | jaipur |
+| aman   |     1000 | jaipur |
+| aman   |     1000 | jaipur |
+| aman   |     1000 | jaipur |
+| aman   |     1000 | jaipur |
+| aman   |     1000 | jaipur |
++--------+----------+--------+
+56 rows in set (0.01 sec)
+
+MariaDB [batch9am]> select name,discount,city from students,fees,address where discount=1000 and city="Jaipur" students.id=address.sid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'students.id=address.sid' at line 1
+MariaDB [batch9am]> select name,discount,city from students,fees,address where discount=1000 and city="Jaipur" and students.id=address.sid;
++--------+----------+--------+
+| name   | discount | city   |
++--------+----------+--------+
+| gaurav |     1000 | jaipur |
+| gaurav |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nikita |     1000 | jaipur |
+| nitin  |     1000 | jaipur |
+| nitin  |     1000 | jaipur |
+| isha   |     1000 | jaipur |
+| isha   |     1000 | jaipur |
++--------+----------+--------+
+8 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select name,discount,city from students,fees,address where discount=1000 and city="Jaipur" and students.id=address.sid and students.id=fees.sid;
++-------+----------+--------+
+| name  | discount | city   |
++-------+----------+--------+
+| nitin |     1000 | jaipur |
++-------+----------+--------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select user from mysql.users;
+ERROR 1146 (42S02): Table 'mysql.users' doesn't exist
+MariaDB [batch9am]> select user from mysql.user;
++--------------+
+| user         |
++--------------+
+| root         |
+| user1        |
+| root         |
+| myadmin      |
+| username     |
+| username1    |
+|              |
+| admin        |
+| adminad      |
+| adminadmin   |
+| akshay       |
+| ayushi       |
+| bank_app     |
+| batch415     |
+| batch4pm     |
+| batch5pm     |
+| flask        |
+| html         |
+| kapil        |
+| mahima       |
+| nupur        |
+| pma          |
+| project      |
+| project1     |
+| ramesh       |
+| root         |
+| simran       |
+| simrangrover |
+| student      |
+| tarun        |
+| user1        |
+| yogesh       |
++--------------+
+32 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select user,host from mysql.user;
++--------------+-----------+
+| user         | host      |
++--------------+-----------+
+| root         | 127.0.0.1 |
+| user1        | 127.0.0.1 |
+| root         | ::1       |
+| myadmin      | locahost  |
+| username     | locahost  |
+| username1    | locahost  |
+|              | localhost |
+| admin        | localhost |
+| adminad      | localhost |
+| adminadmin   | localhost |
+| akshay       | localhost |
+| ayushi       | localhost |
+| bank_app     | localhost |
+| batch415     | localhost |
+| batch4pm     | localhost |
+| batch5pm     | localhost |
+| flask        | localhost |
+| html         | localhost |
+| kapil        | localhost |
+| mahima       | localhost |
+| nupur        | localhost |
+| pma          | localhost |
+| project      | localhost |
+| project1     | localhost |
+| ramesh       | localhost |
+| root         | localhost |
+| simran       | localhost |
+| simrangrover | localhost |
+| student      | localhost |
+| tarun        | localhost |
+| user1        | localhost |
+| yogesh       | localhost |
++--------------+-----------+
+32 rows in set (0.00 sec)
+
+MariaDB [batch9am]> create user "batch"@"localhost" identified by "password";
+Query OK, 0 rows affected (0.01 sec)
+
+MariaDB [batch9am]> select user,host from mysql.user;
++--------------+-----------+
+| user         | host      |
++--------------+-----------+
+| root         | 127.0.0.1 |
+| user1        | 127.0.0.1 |
+| root         | ::1       |
+| myadmin      | locahost  |
+| username     | locahost  |
+| username1    | locahost  |
+|              | localhost |
+| admin        | localhost |
+| adminad      | localhost |
+| adminadmin   | localhost |
+| akshay       | localhost |
+| ayushi       | localhost |
+| bank_app     | localhost |
+| batch        | localhost |
+| batch415     | localhost |
+| batch4pm     | localhost |
+| batch5pm     | localhost |
+| flask        | localhost |
+| html         | localhost |
+| kapil        | localhost |
+| mahima       | localhost |
+| nupur        | localhost |
+| pma          | localhost |
+| project      | localhost |
+| project1     | localhost |
+| ramesh       | localhost |
+| root         | localhost |
+| simran       | localhost |
+| simrangrover | localhost |
+| student      | localhost |
+| tarun        | localhost |
+| user1        | localhost |
+| yogesh       | localhost |
++--------------+-----------+
+33 rows in set (0.00 sec)
+
+MariaDB [batch9am]> exit;
+Bye
+
+Simran Grover@LAPTOP-JS358S5T c:\xampp
+# mysql -u batch -p
+Enter password: ********
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 4
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| test               |
++--------------------+
+2 rows in set (0.01 sec)
+
+MariaDB [(none)]> exit;
+Bye
+
+Simran Grover@LAPTOP-JS358S5T c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 5
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> grant all privileges on batch9am.* to "batch"@"localhost";
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [(none)]> exit;
+Bye
+
+Simran Grover@LAPTOP-JS358S5T c:\xampp
+# mysql -u batch -p
+Enter password:
+ERROR 1045 (28000): Access denied for user 'batch'@'localhost' (using password: NO)
+
+Simran Grover@LAPTOP-JS358S5T c:\xampp
+# mysql -u batch -p
+Enter password: ********
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 7
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| batch9am           |
+| information_schema |
+| test               |
++--------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [(none)]> use batch9am;
+Database changed
+MariaDB [batch9am]> show tables;
++--------------------+
+| Tables_in_batch9am |
++--------------------+
+| address            |
+| fees               |
+| students           |
++--------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from address;
++-----+------+---------------+---------+-------+
+| aid | sid  | street        | city    | state |
++-----+------+---------------+---------+-------+
+|   1 |  101 | malviya nagar | jaipur  | raj   |
+|   2 |  103 | raja park     | jaipur  | raj   |
+|   3 |  104 | vaishali      | delhi   | delhi |
+|   4 |  102 | malviya nagar | jaipur  | delhi |
+|   5 |  105 | tilak nagar   | gwalior | mp    |
+|   6 |  106 | jawahar nagar | jaipur  | raj   |
++-----+------+---------------+---------+-------+
+6 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students;
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
+| 107 | aman   | python |   23 |
++-----+--------+--------+------+
+7 rows in set (0.00 sec)
+
+MariaDB [batch9am]> insert into students values(108,"damini","linux",22);
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [batch9am]> select * from students;
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
+| 107 | aman   | python |   23 |
+| 108 | damini | linux  |   22 |
++-----+--------+--------+------+
+8 rows in set (0.00 sec)
+
+MariaDB [batch9am]> exit;
+Bye
+
+Simran Grover@LAPTOP-JS358S5T c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> select * from batch9am.students;
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
+| 107 | aman   | python |   23 |
+| 108 | damini | linux  |   22 |
++-----+--------+--------+------+
+8 rows in set (0.00 sec)
+
+MariaDB [(none)]> use batch9am;
+Database changed
+MariaDB [batch9am]> select * from students where name like "g%";
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
++-----+--------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "%a";
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 106 | isha   | ds     |   25 |
++-----+--------+--------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "%a%";
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
+| 105 | akhsay | aws    |   22 |
+| 106 | isha   | ds     |   25 |
+| 107 | aman   | python |   23 |
+| 108 | damini | linux  |   22 |
++-----+--------+--------+------+
+7 rows in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like ".a";
+Empty set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "a";
+Empty set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "%.a";
+Empty set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "g.";
+Empty set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "a....";
+Empty set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "a.%";
+Empty set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like ".%";
+Empty set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "a_";
+Empty set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "a_";
+Empty set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "a___";
++-----+------+--------+------+
+| id  | name | course | age  |
++-----+------+--------+------+
+| 107 | aman | python |   23 |
++-----+------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "a___";
++-----+------+--------+------+
+| id  | name | course | age  |
++-----+------+--------+------+
+| 107 | aman | python |   23 |
++-----+------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "___a";
++-----+------+--------+------+
+| id  | name | course | age  |
++-----+------+--------+------+
+| 106 | isha | ds     |   25 |
++-----+------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "g%" or like "n%";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'like "n%"' at line 1
+MariaDB [batch9am]> select * from students where name like "g%" or "n%";
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
++-----+--------+--------+------+
+1 row in set, 4 warnings (0.00 sec)
+
+MariaDB [batch9am]> select * from students where name like "g%" or name like "n%";
++-----+--------+--------+------+
+| id  | name   | course | age  |
++-----+--------+--------+------+
+| 101 | gaurav | python |   21 |
+| 102 | nitin  | ml     |   25 |
+| 103 | nikita | ds     |   20 |
+| 104 | nikita | ds     |   20 |
++-----+--------+--------+------+
+4 rows in set (0.00 sec)
+
+MariaDB [batch9am]>
